@@ -88,12 +88,13 @@ while running:
     w.world.Step(TIME_STEP, 10, 10)
 
     if down:
-        print(dir(w.bodies["Body"]))
-        if (joint.translation >= joint.limits[0]):
+        if (joint.translation > joint.limits[0]):
             w.bodies["Body"].ApplyForceToCenter(Box2D.b2Vec2(0, -1), True)
     if jump:
-        print(dir(w.bodies["Body"]))
         joint = w.joints["RearMotor"]
+        joint.motorEnabled = True
+        joint.enableLimit = True
+
         body = w.bodies["Body"]
 
         if jump and (joint.translation >= joint.limits[1] - 0.01):
@@ -101,12 +102,6 @@ while running:
         else:
             body.ApplyForceToCenter(Box2D.b2Vec2(0, 2 * body.mass * 9.81), True)
 
-        joint = w.joints["RearMotor"]
-        joint.motorEnabled = True
-        joint.enableLimit = True
-        print(w.joints["RearMotor"])
-    elif not down:
-        body.ApplyForceToCenter(Box2D.b2Vec2(0, 0.5 * body.mass * 9.81), True)
         
         
     if False and (jump or i >= -1): # and (round(i / 1)) % 1 == 0:
