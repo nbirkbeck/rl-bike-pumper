@@ -2,8 +2,11 @@ import world
 import json
 
 import pygame
+from pygame import freetype
+
 import math
 from pygame.locals import (QUIT, KEYDOWN, KEYUP, K_ESCAPE, K_SPACE)
+
 
 import Box2D
 
@@ -20,6 +23,7 @@ TARGET_FPS = 60
 TIME_STEP = 1.0 / TARGET_FPS
 SCREEN_WIDTH, SCREEN_HEIGHT = 640, 480
 
+pygame.init()
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), 0, 32)
 pygame.display.set_caption('Simple pygame example')
 clock = pygame.time.Clock()
@@ -61,6 +65,7 @@ polygonShape.draw = draw_polygon
 edgeShape.draw = draw_line
 circleShape.draw = draw_circle
 running = True
+font = freetype.Font("Vera.ttf", 16)
 
 def process_events():
     for event in pygame.event.get():
@@ -68,7 +73,7 @@ def process_events():
             # The user closed the window or pressed escape
             running = False
 
-def draw(w, fps=TARGET_FPS):
+def draw(w, fps=TARGET_FPS, action_str=''):
     screen.fill((200, 200, 225, 0))
 
     # Draw the world
@@ -80,6 +85,10 @@ def draw(w, fps=TARGET_FPS):
 
     camera_center[0] = (w.bodies["Bike"].transform.position.x * 0.1 + camera_center[0] * 0.9)
     camera_center[1] = w.bodies["Bike"].transform.position.y * 0.1
+
+
+    if action_str:
+        font.render_to(screen, (SCREEN_WIDTH - 120, 10), action_str, (0, 0, 0))
 
     pygame.display.flip()
     clock.tick(fps)

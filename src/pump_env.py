@@ -56,11 +56,11 @@ class PumpEnv(gym.Env):
         self.elapsed_time += TIME_STEP
         if self.callback:
           self.callback()
-        if (body.position.x < self.last_pos_x):
+        if (bike.position.x < self.last_pos_x):
           done = True
           break
         else:
-          self.last_pos_x = body.position.x
+          self.last_pos_x = bike.position.x
     velocity = self.world.bodies["Bike"].linearVelocity.x
     reward = 0.01*(velocity - self.last_velocity)
     if action == 1:

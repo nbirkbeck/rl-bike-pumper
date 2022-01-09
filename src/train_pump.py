@@ -19,6 +19,8 @@ parser.add_argument('--train', type=int, help='Whether to train or not',
                     default=True)
 parser.add_argument('--n_steps', type=int, help='Number of steps in final sim',
                     default=0)
+parser.add_argument('--hand_coded', type=str, help='Use hand coded agent',
+                    default='')
 
 args = parser.parse_args()
 
@@ -54,16 +56,20 @@ import window
 obs = env.reset()
 single_env.render_all = True
 n_steps = args.n_steps
-single_env.callback = lambda: window.draw(single_env.world,1000) and  window.process_events()
+action = [1]
+single_env.callback = (
+    lambda: window.draw(single_env.world, 1000,
+                        action_str='Pulling up' if action[0] == 2 else 'Pushing down' if action[0] == 0 else '')
+    and window.process_events())
 
 for step in range(n_steps):
   action, _ = model.predict(obs, deterministic=False)
   print("Step {}".format(step + 1))
   print("Action: ", action)
   print(obs)
-  if False:
+  if args.hand_coded == 'no-op':
       action = [1]
-  if True:
+  elif args.hand_coded == 'optimal':
       # Somewhat optimal agent.
       if obs[0][1] > obs[0][0]:
           action = [0]
@@ -72,6 +78,8 @@ for step in range(n_steps):
 
   obs, reward, done, info = env.step(action)
   if done:
+      for i in range(0, 60):
+          window.draw(single_env.world, 60, "Game over")
       obs = env.reset()
 
   if not window.running: break
