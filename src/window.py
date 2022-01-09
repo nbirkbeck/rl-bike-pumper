@@ -18,14 +18,14 @@ colors = {
     'line': (0, 0, 0, 100),
 }
 
-PPM = 30.0  # pixels per meter
+PPM = 30.0
 TARGET_FPS = 60
 TIME_STEP = 1.0 / TARGET_FPS
 SCREEN_WIDTH, SCREEN_HEIGHT = 640, 480
 
 pygame.init()
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), 0, 32)
-pygame.display.set_caption('Simple pygame example')
+pygame.display.set_caption('RL Bike Pumper')
 clock = pygame.time.Clock()
 
 stx = [SCREEN_WIDTH/2, SCREEN_HEIGHT/2]
@@ -70,7 +70,6 @@ font = freetype.Font("Vera.ttf", 16)
 def process_events():
     for event in pygame.event.get():
         if event.type == QUIT or (event.type == KEYDOWN and event.key == K_ESCAPE):
-            # The user closed the window or pressed escape
             running = False
 
 def draw(w, fps=TARGET_FPS, action_str=''):

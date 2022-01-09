@@ -12,7 +12,7 @@ parser.add_argument('--num_train_its', type=int,
                     help='Number of training iterations', default=1000000)
 parser.add_argument('--model', type=str, help='DQN or PPO', default='DQN')
 parser.add_argument('--filename', type=str, help='Path to world',
-                    default='../levels/world.textpb')
+                    default='models/model.json')
 parser.add_argument('--save_dir', type=str, help='Director to save state',
                     default='/tmp/pump')
 parser.add_argument('--train', type=int, help='Whether to train or not',
@@ -33,7 +33,7 @@ if args.model == 'DQN':
                   # buffer_size=100000,
                   exploration_initial_eps=1,
                   exploration_fraction=0.9,
-                  exploration_final_eps=0.025)  # 0.5, 0.05
+                  exploration_final_eps=0.05) #025)  # 0.5, 0.05
 else:
     env = pump_env.PumpEnv(filename)
     env = make_vec_env(lambda: env, n_envs=1)
@@ -59,7 +59,8 @@ n_steps = args.n_steps
 action = [1]
 single_env.callback = (
     lambda: window.draw(single_env.world, 1000,
-                        action_str='Pulling up' if action[0] == 2 else 'Pushing down' if action[0] == 0 else '')
+                        action_str='Pulling up' if action[0] == 2
+                        else 'Pushing down' if action[0] == 0 else '')
     and window.process_events())
 
 for step in range(n_steps):
@@ -67,6 +68,8 @@ for step in range(n_steps):
   print("Step {}".format(step + 1))
   print("Action: ", action)
   print(obs)
+
+  # Substitute a hard-coded agent (for the purpose of creating videos)
   if args.hand_coded == 'no-op':
       action = [1]
   elif args.hand_coded == 'optimal':

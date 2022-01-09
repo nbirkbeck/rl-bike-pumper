@@ -6,7 +6,7 @@ import pygame
 from pygame.locals import (QUIT, KEYDOWN, KEYUP, K_ESCAPE, K_SPACE)
 import math
 
-import Box2D  # The main library
+import Box2D
 from Box2D import *
 from Box2D.b2 import (polygonShape, circleShape, staticBody, dynamicBody, edgeShape)
 
@@ -15,6 +15,7 @@ w = world.World()
 model = json.loads(open('models/model.json', 'r').read())
 print(model)
 w.load(model)
+
 jump = False
 down = False
 
@@ -25,10 +26,8 @@ joint.motorEnabled = True
 joint.enableLimit = True
 
 while window.running:
-    # Check the event queue
     for event in pygame.event.get():
         if event.type == QUIT or (event.type == KEYDOWN and event.key == K_ESCAPE):
-            # The user closed the window or pressed escape
             window.running = False
         if  (event.type == KEYDOWN and event.key == ord('a')):
             jump = True
@@ -52,7 +51,6 @@ while window.running:
 
     window.draw(w, action_str='Pulling up' if jump else 'Pushing down' if down else '')
 
-    # Make Box2D simulate the physics of our world for one step.
     w.world.Step(window.TIME_STEP, 10, 10)
 
 pygame.quit()
