@@ -3,10 +3,12 @@
 This started out as a quick hobby project to see if I could get
 a reinforcement agent to learn how to jump high on a bike. But,
 tinkering with the physics to get a suitable agent was a pain,
-so this turned into to a learning-to-pump for speed to clear a
-set of obstacles.
+so this turned into to a learning-to-pump-for-speed to clear a
+set of obstacles project.
 
 ![doc/screenshot.png](doc/screenshot.png)
+
+Results video: [https://www.youtube.com/watch?v=p7_XyopoN4w](https://www.youtube.com/watch?v=p7_XyopoN4w).
 
 Box2D is used as the physics engine, and a simple bike
 with two wheels, revolute joints for the front and rear hubs that
