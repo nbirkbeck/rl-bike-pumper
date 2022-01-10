@@ -32,8 +32,8 @@ when when the prismatic joint connecting the body and bike is not a the limits.
 
 # Bike Model and Terrain Models
 
-The model is built and exported from blender (see [model/model.blend](model/model.blend)).
-A JSON version of the bike is loaded from the JSON representation in [model/bike.json](model/bike.json).
+The model is built and exported from blender (see [models/model.blend](models/model.blend)).
+A JSON version of the bike is loaded from the JSON representation in [models/bike.json](models/bike.json).
 
 # Training an agent
 
