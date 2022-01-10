@@ -33,7 +33,7 @@ if args.model == 'DQN':
                   # buffer_size=100000,
                   exploration_initial_eps=1,
                   exploration_fraction=0.9,
-                  exploration_final_eps=0.05) #025)  # 0.5, 0.05
+                  exploration_final_eps=0.025) #025)  # 0.5, 0.05
 else:
     env = pump_env.PumpEnv(filename)
     env = make_vec_env(lambda: env, n_envs=1)

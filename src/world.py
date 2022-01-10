@@ -67,7 +67,7 @@ class World:
         bd_ground = b2BodyDef()
         groundBody = self.world.CreateBody(bd_ground)
 
-        groundBody.CreateFixture(shape=b2EdgeShape(vertices=[b2Vec2(-100.0, -100), b2Vec2(100.0, -100)]))
+        groundBody.CreateFixture(shape=b2EdgeShape(vertices=[b2Vec2(-1000.0, -40), b2Vec2(1000.0, -40)]))
         self.bodies = {"ground": groundBody}
         self.edges = {}
 

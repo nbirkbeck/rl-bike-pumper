@@ -6,7 +6,9 @@ tinkering with the physics to get a suitable agent was a pain,
 so this turned into to a learning-to-pump for speed to clear a
 set of obstacles.
 
-Physics: Box2D is used as the physics engine, and a simple bike
+![doc/screenshot.png](doc/screenshot.png)
+
+Box2D is used as the physics engine, and a simple bike
 with two wheels, revolute joints for the front and rear hubs that
 are welded to a bike (a mass near where the cranks would be).
 After fidling with a simple rider with a body, and a head, and several
@@ -25,6 +27,7 @@ up ("Pull up") away from the bike, and a "push down" action that applies
 a force downward on the body. Both of these forces are only applicable
 when when the prismatic joint connecting the body and bike is not a the limits.
 
+
 # Bike Model and Terrain Models
 
 The model is built and exported from blender (see [model/model.blend](model/model.blend)).
@@ -32,25 +35,29 @@ A JSON version of the bike is loaded from the JSON representation in [model/bike
 
 # Training an agent
 
-The "Stable Baslines" environment for the agent is here: ![src/pump_env.py](src/pump_env.py)
+The agent environment is implemented in stable-baselines in [src/pump_env.py](src/pump_env.py)
 
-It includes the observable state:
+It consists of some observable state:
 
 * Relative height of front and back wheels (relative to the bike center)
 * The vertical distance of a the front-hub to the ground.
 
 And the mapping of actions to forces in the world (plus the simulation with Box2D):
 
+
 * Pull up (apply an upward force to the body)
 * Push down (apply a downward force to the body)
+* No-op action (penalized slightly in the reward function)
 
-The training code in ![src/pump_env.py](src/train_pump.py) can be invoked with the following command line (trains for 2M iterations):
+The training code in [src/pump_env.py](src/train_pump.py) can be invoked with the following command line (trains for 2M iterations):
+
 ```
 python3 src/train_pump.py --filename=models/model.json --num_train_its=2000000 --save_dir=/tmp/pump_2M --train=1
 ```
 Should result in ep_len_mean > 220 and ep_rew_mean close to zero.
 
 Playing back the results:
+
 ```
 python3 src/train_pump.py --filename=models/model.json --n_steps=10000 --save_dir=/tmp/pump_2M --train=0
 ```
@@ -58,10 +65,9 @@ python3 src/train_pump.py --filename=models/model.json --n_steps=10000 --save_di
 ## Generalizability
 
 Since the state doesn't involve anything related to the world (or global info
-like time), the agent does seem to do the right thing in other environments.
+like time), the agent does seem to do the right thing in other similar environments. See the example video above.
 
-
-## Hand-coded agent
+## Hard-coded agent
 
 Initially, I was using more observable state (velocity, distance of the prismatic joint, and
 some proxy signals of upcoming terrain). However, those signals seemed to be inhibiting the
@@ -76,3 +82,6 @@ not actually optimal, you can see that such a strategy does work fairly well.
 Use the buttons 'a' to pull up and 'z' to press down. Pretty simple to
 make it through the course. Not very fun.
 
+```
+python3 src/main.py
+```

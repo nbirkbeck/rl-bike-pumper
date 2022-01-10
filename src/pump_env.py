@@ -87,7 +87,7 @@ class PumpEnv(gym.Env):
 
     # At the end of the game, give reward proportional to the length of the game
     if done:
-        reward += self.elapsed_time / 100.0
+        reward += body.position.x / 100.0
 
     self.last_action = action
     self.last_velocity = velocity
